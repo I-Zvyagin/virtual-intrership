@@ -15,6 +15,10 @@ java {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 compileJava {
     options.encoding = "UTF-8"
 }
@@ -25,4 +29,16 @@ compileTestJava {
 
 test {
     useJUnitPlatform()
+}
+
+ext {
+    set("springBootVersion", "3.2.5")
+}
+
+dependencies {
+
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+
 }
