@@ -1,24 +1,26 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 
 version = '0.0.1-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 compileJava {
     options.encoding = "UTF-8"
 }
 
-repositories {
-    mavenCentral()
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+compileTestJava {
+    options.encoding = "UTF-8"
 }
 
 test {
