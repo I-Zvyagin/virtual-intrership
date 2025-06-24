@@ -10,16 +10,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TravelCalculatePremiumServiceImplTest {
 
-    TravelCalculatePremiumServiceImpl serviceImpl = new TravelCalculatePremiumServiceImpl();
-    @Test
-    public void correctFieldsFilling() {
-        TravelCalculatePremiumResponse responseFromMethod = serviceImpl.calculatePremium
-                (new TravelCalculatePremiumRequest("Stan", "Lee",
-                        new Date(120, 4, 20), new Date(120, 4, 27)));
+    private TravelCalculatePremiumServiceImpl serviceImpl = new TravelCalculatePremiumServiceImpl();
+    private TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest
+            ("Stan",
+                    "Lee",
+                    new Date(120, 4, 20),
+                    new Date(120, 4, 27));
 
-        assertEquals(responseFromMethod.getPersonFirstName(), "Stan");
-        assertEquals(responseFromMethod.getPersonLastName(), "Lee");
-        assertEquals(responseFromMethod.getAgreementDateFrom(), new Date(120, 4, 20));
-        assertEquals(responseFromMethod.getAgreementDateTo(), new Date(120, 4, 27));
+    @Test
+    public void correctFirstNameFilling() {
+        TravelCalculatePremiumResponse responseFromMethod = serviceImpl.calculatePremium(request);
+        assertEquals(responseFromMethod.getPersonFirstName(), request.getPersonFirstName());
+    }
+
+    @Test
+    public void correctLastNameFilling() {
+        TravelCalculatePremiumResponse responseFromMethod = serviceImpl.calculatePremium(request);
+
+        assertEquals(responseFromMethod.getPersonLastName(), request.getPersonLastName());
+    }
+
+    @Test
+    public void correctDateFromFilling() {
+        TravelCalculatePremiumResponse responseFromMethod = serviceImpl.calculatePremium(request);
+
+        assertEquals(responseFromMethod.getAgreementDateFrom(), request.getAgreementDateFrom());
+    }
+
+    @Test
+    public void correctDateToFilling() {
+        TravelCalculatePremiumResponse responseFromMethod = serviceImpl.calculatePremium(request);
+
+        assertEquals(responseFromMethod.getAgreementDateTo(), request.getAgreementDateTo());
     }
 }
