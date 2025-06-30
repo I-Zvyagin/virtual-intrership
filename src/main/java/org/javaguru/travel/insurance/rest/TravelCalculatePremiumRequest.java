@@ -4,6 +4,11 @@ import java.util.Date;
 
 public class TravelCalculatePremiumRequest {
 
+    private String personFirstName;
+    private String personLastName;
+    private Date agreementDateFrom;
+    private Date agreementDateTo;
+
     public TravelCalculatePremiumRequest() {}
 
     public TravelCalculatePremiumRequest(String personFirstName, String personLastName, Date agreementDateFrom, Date agreementDateTo) {
@@ -47,10 +52,4 @@ public class TravelCalculatePremiumRequest {
     public void setAgreementDateTo(Date agreementDateTo) {
         this.agreementDateTo = agreementDateTo;
     }
-
-    private String personFirstName;
-    private String personLastName;
-    private Date agreementDateFrom;
-    private Date agreementDateTo;
-
 }
