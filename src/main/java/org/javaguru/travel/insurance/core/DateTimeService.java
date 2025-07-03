@@ -8,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 @Component
 class DateTimeService {
     long getPeriodInDays(Date date1, Date date2) {
-        long milliseconds = date2.getTime() - date1.getTime();
+        long dateMax = Math.max(date2.getTime(),date1.getTime());
+        long dateMin = Math.min(date2.getTime(),date1.getTime());
+        long milliseconds = dateMax - dateMin;
         return TimeUnit.DAYS.convert(milliseconds, TimeUnit.MILLISECONDS);
     }
 }
