@@ -1,6 +1,7 @@
 package org.javaguru.travel.insurance.core;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
 
 import java.util.Date;
 
