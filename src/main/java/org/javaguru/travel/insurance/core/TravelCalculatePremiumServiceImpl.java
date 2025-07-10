@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService {
 
-    private final DateTimeService dateTimeService;
+    private final UnderwritingServiceImpl underwritingService;
     private final TravelCalculatePremiumRequestValidator requestValidator;
 
     @Override
@@ -35,8 +35,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         response.setAgreementDateTo(request.getAgreementDateTo());
         response.setPersonFirstName(request.getPersonFirstName());
         response.setPersonLastName(request.getPersonLastName());
-        response.setAgreementPrice(new BigDecimal(dateTimeService.getPeriodInDays(request.getAgreementDateFrom(),
-                request.getAgreementDateTo())));
+        response.setAgreementPrice(underwritingService.calculateAgreementPrice(request));
 
         return response;
     }

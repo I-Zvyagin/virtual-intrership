@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TravelCalculatePremiumServiceImplTest {
     @Mock
-    private DateTimeService dateTimeService;
+    private UnderwritingServiceImpl underwritingService;
 
     @Mock
     private TravelCalculatePremiumRequestValidator requestValidator;
@@ -33,7 +34,7 @@ class TravelCalculatePremiumServiceImplTest {
     @BeforeEach
     public void setUp() {
         request = createRequestWithAllFields();
-        when(dateTimeService.getPeriodInDays(request.getAgreementDateFrom(), request.getAgreementDateTo())).thenReturn(0L);
+        when(underwritingService.calculateAgreementPrice(request)).thenReturn(new BigDecimal(0));
         when(requestValidator.validate(request)).thenReturn(List.of());
         response = service.calculatePremium(request);
     }
