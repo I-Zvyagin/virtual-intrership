@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UnderwritingServiceImplTest {
+class UnderwritingCalculatorTest {
 
     @InjectMocks
-    private UnderwritingServiceImpl underwritingService;
+    private UnderwritingCalculator underwritingCalculator;
 
     @Mock
     private TravelCalculatePremiumRequest request;
@@ -26,7 +26,7 @@ class UnderwritingServiceImplTest {
     void calculateAgreementPrice() {
         when(request.getAgreementDateFrom()).thenReturn(new Date(50,5,15));
         when(request.getAgreementDateTo()).thenReturn(new Date(50,5,16));
-        BigDecimal agreementPrice = underwritingService.calculateAgreementPrice(request);
+        BigDecimal agreementPrice = underwritingCalculator.calculateAgreementPrice(request);
         assertEquals(1L, agreementPrice.longValue());
     }
 }

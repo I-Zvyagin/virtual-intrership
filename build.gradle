@@ -37,6 +37,12 @@ ext {
 
 dependencies {
 
+    //For calculating execution time
+    implementation("com.google.guava:guava:33.4.8-jre")
+
+    //For JSON parsing
+    implementation('com.fasterxml.jackson.core:jackson-core:2.14.2')
+
     compileOnly('org.projectlombok:lombok:1.18.32')
     annotationProcessor('org.projectlombok:lombok:1.18.32')
 
