@@ -1,8 +1,8 @@
 <configuration>
     <appender name="COMMON-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.log</file>
+        <file>student_ivan_zvyagin/logs/application.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>student_ivan_zvyagin/logs/application.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
@@ -11,9 +11,9 @@
         </encoder>
     </appender>
     <appender name="REQUEST-RESPONSE-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/request-response-logger.log</file>
+        <file>student_ivan_zvyagin/logs/request-response-logger.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/request-response-logger.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>student_ivan_zvyagin/logs/request-response-logger.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>

@@ -1,5 +1,6 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.services;
 
+import org.javaguru.travel.insurance.core.underwriting.UnderwritingCalculator;
 import org.javaguru.travel.insurance.core.validation.TravelCalculatePremiumRequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumResponse;
@@ -69,8 +70,8 @@ class TravelCalculatePremiumServiceImplTest {
         TravelCalculatePremiumRequest request = new TravelCalculatePremiumRequest();
         request.setPersonFirstName("Stan");
         request.setPersonLastName("Lee");
-        request.setAgreementDateFrom(new Date(230, 5, 20));
-        request.setAgreementDateTo(new Date(230, 5, 25));
+        request.setAgreementDateFrom(new Date(126, 7, 25));
+        request.setAgreementDateTo(new Date(126, 7, 29));
         return request;
     }
 }

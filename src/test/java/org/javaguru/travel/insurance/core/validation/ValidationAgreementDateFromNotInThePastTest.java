@@ -1,10 +1,10 @@
 package org.javaguru.travel.insurance.core.validation;
 
-import org.javaguru.travel.insurance.core.validation.ValidationAgreementDateFromNotInThePast;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -17,23 +17,28 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ValidationAgreementDateFromNotInThePastTest {
 
-    private ValidationAgreementDateFromNotInThePast validationAgreementDateFromNotInThePast = new ValidationAgreementDateFromNotInThePast();
+    @Mock
+    private ValidationErrorFactory validationErrorFactory;
+    @InjectMocks
+    private ValidationAgreementDateFromNotInThePast validationAgreementDateFromNotInThePast;
 
     @Mock
     private TravelCalculatePremiumRequest request;
 
+    @Mock
+    private ValidationError validationError;
     @Test
     public void AgreementDateFromInThePast() {
-        when(request.getAgreementDateFrom()).thenReturn(new Date(30, 8, 25));
+        when(request.getAgreementDateFrom()).thenReturn(new Date(125, 7, 25));
+        when(validationErrorFactory.buildError("ERROR_CODE_4")).thenReturn(validationError);
         Optional<ValidationError> error = validationAgreementDateFromNotInThePast.execute(request);
         assertTrue(error.isPresent());
-        assertEquals("agreementDateFrom", error.get().getField());
-        assertEquals("Must not be in the past!", error.get().getMessage());
+        assertSame(validationError, error.get());
     }
 
     @Test
     public void AgreementDateFromInTheFuture() {
-        when(request.getAgreementDateFrom()).thenReturn(new Date(130, 8, 25));
+        when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7, 25));
         Optional<ValidationError> error = validationAgreementDateFromNotInThePast.execute(request);
         assertTrue(error.isEmpty());
     }

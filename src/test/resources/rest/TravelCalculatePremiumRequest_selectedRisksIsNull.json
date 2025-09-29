@@ -1,8 +1,7 @@
 {
-  "errors": null,
   "personFirstName" : "Stan",
   "personLastName" : "Lee",
   "agreementDateFrom" : "2026-08-25",
   "agreementDateTo" : "2026-08-29",
-  "agreementPrice": 4
+  "selectedRisks" : null
 }

@@ -1,10 +1,10 @@
 package org.javaguru.travel.insurance.core.validation;
 
-import org.javaguru.travel.insurance.core.validation.ValidationDateToAfterDateFrom;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -17,25 +17,32 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ValidationDateToAfterDateFromTest {
 
-    private ValidationDateToAfterDateFrom validationDateToAfterDateFrom = new ValidationDateToAfterDateFrom();
+    @Mock
+    private ValidationErrorFactory validationErrorFactory;
+    @InjectMocks
+    private ValidationDateToAfterDateFrom validationDateToAfterDateFrom;
 
     @Mock
     private TravelCalculatePremiumRequest request;
 
+    @Mock
+    private ValidationError validationError;
+
+
     @Test
     public void DateToBeforeDateFrom() {
-        when(request.getAgreementDateFrom()).thenReturn(new Date(130, 8 , 29));
-        when(request.getAgreementDateTo()).thenReturn(new Date(130, 8 , 25));
+        when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7 , 29));
+        when(request.getAgreementDateTo()).thenReturn(new Date(126, 7 , 25));
+        when(validationErrorFactory.buildError("ERROR_CODE_7")).thenReturn(validationError);
         Optional<ValidationError> error = validationDateToAfterDateFrom.execute(request);
         assertTrue(error.isPresent());
-        assertEquals("agreementDateTo", error.get().getField());
-        assertEquals("Must be later than agreementDateFrom!", error.get().getMessage());
+        assertSame(validationError, error.get());
     }
 
     @Test
     public void DateToAfterDateFrom() {
-        when(request.getAgreementDateFrom()).thenReturn(new Date(130, 8 , 25));
-        when(request.getAgreementDateTo()).thenReturn(new Date(130, 8 , 29));
+        when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7 , 25));
+        when(request.getAgreementDateTo()).thenReturn(new Date(126, 7 , 29));
         Optional<ValidationError> error = validationDateToAfterDateFrom.execute(request);
         assertTrue(error.isEmpty());
     }

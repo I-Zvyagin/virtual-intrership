@@ -8,20 +8,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ValidationAgreementDateFromTest {
+class ValidationSelectedRisksTest {
 
     @Mock
     private ValidationErrorFactory validationErrorFactory;
     @InjectMocks
-    private ValidationAgreementDateFrom validationAgreementDateFrom;
+    private ValidationSelectedRisks validationSelectedRisks;
 
     @Mock
     private TravelCalculatePremiumRequest request;
@@ -30,18 +29,21 @@ class ValidationAgreementDateFromTest {
     private ValidationError validationError;
 
     @Test
-    public void AgreementDateFromIsNull() {
-        when(request.getAgreementDateFrom()).thenReturn(null);
-        when(validationErrorFactory.buildError("ERROR_CODE_3")).thenReturn(validationError);
-        Optional<ValidationError> error = validationAgreementDateFrom.execute(request);
+    public void ValidationSelectedRisksIsNull() {
+        when(request.getSelectedRisks()).thenReturn(null);
+        when(validationErrorFactory.buildError("ERROR_CODE_8")).thenReturn(validationError);
+        Optional<ValidationError> error = validationSelectedRisks.execute(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
 
     @Test
-    public void AgreementDateFromIsCorrect() {
-        when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7, 25));
-        Optional<ValidationError> error = validationAgreementDateFrom.execute(request);
+    public void ValidationSelectedRisksIsCorrect() {
+        when(request.getSelectedRisks()).thenReturn(List.of(
+                "TRAVEL_MEDICAL",
+                "TRAVEL_CANCELLATION",
+                "TRAVEL_LOSS_BAGGAGE"));
+        Optional<ValidationError> error = validationSelectedRisks.execute(request);
         assertTrue(error.isEmpty());
     }
 }

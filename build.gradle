@@ -1,56 +1,84 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+	repositories {
+		mavenCentral()
+	}
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
+	apply plugin: 'java'
+	apply plugin: 'idea'
 
-version = '0.0.1-SNAPSHOT'
+	version = '0.0.1-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
+	java {
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(21)
+		}
+	}
 
-repositories {
-    mavenCentral()
-}
+	repositories {
+		mavenCentral()
+	}
 
-compileJava {
-    options.encoding = "UTF-8"
-}
+	compileJava {
+		options.encoding = "UTF-8"
+	}
 
-compileTestJava {
-    options.encoding = "UTF-8"
-}
+	compileTestJava {
+		options.encoding = "UTF-8"
+	}
 
-test {
-    useJUnitPlatform()
-}
+	test {
+		useJUnitPlatform()
+	}
+
+	clean.doFirst {
+		delete "${projectDir}/logs/"
+		println "${projectDir}/logs/"
+
+		delete "${projectDir}/out/"
+		println "${projectDir}/out/"
+
+		delete "${projectDir}/build/"
+		println "${projectDir}/build/"
+	}
 
 ext {
-    set("springBootVersion", "3.2.5")
+	set("springBootVersion", "3.2.5")
 }
 
 dependencies {
 
-    //For calculating execution time
-    implementation("com.google.guava:guava:33.4.8-jre")
+	implementation('mysql:mysql-connector-java:8.0.33')
+	implementation('org.hibernate:hibernate-core:6.5.0.Final')
 
-    //For JSON parsing
-    implementation('com.fasterxml.jackson.core:jackson-core:2.14.2')
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
 
-    compileOnly('org.projectlombok:lombok:1.18.32')
-    annotationProcessor('org.projectlombok:lombok:1.18.32')
+	//For calculating execution time
+	implementation("com.google.guava:guava:33.4.8-jre")
 
-    testCompileOnly('org.projectlombok:lombok:1.18.32')
-    testAnnotationProcessor('org.projectlombok:lombok:1.18.32')
+	//For JSON parsing
+	implementation('com.fasterxml.jackson.core:jackson-core:2.14.2')
 
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+	compileOnly('org.projectlombok:lombok:1.18.32')
+	annotationProcessor('org.projectlombok:lombok:1.18.32')
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+	testCompileOnly('org.projectlombok:lombok:1.18.32')
+	testAnnotationProcessor('org.projectlombok:lombok:1.18.32')
 
+	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+
+	testImplementation('org.hamcrest:hamcrest:2.2')
+
+	// For correct comparison of JSONs
+	testImplementation('uk.org.webcompere:model-assert:1.0.0')
+
+	//
+	testImplementation('com.h2database:h2:2.2.224')
+
+
+	test {
+		useJUnitPlatform()
+	}
 }

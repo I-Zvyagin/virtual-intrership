@@ -1,16 +1,16 @@
-package org.javaguru.travel.insurance.core;
+package org.javaguru.travel.insurance.core.util;
 
+import org.javaguru.travel.insurance.core.util.DateTimeUtil;
 import org.junit.jupiter.api.Test;
-import org.mockito.Spy;
 
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DateTimeServiceTest {
+class DateTimeUtilTest {
     private Date date1;
     private  Date date2;
-    private DateTimeService dateTimeService = new DateTimeService();
+    private DateTimeUtil dateTimeService = new DateTimeUtil();
 
     @Test
     public void getCorrectAmountOfDays1() {
