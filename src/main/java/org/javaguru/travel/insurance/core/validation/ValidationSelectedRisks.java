@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ValidationSelectedRisks implements ValidationService{
+class ValidationSelectedRisks extends ValidationServiceImpl{
 
     private final ValidationErrorFactory validationErrorFactory;
 
     @Override
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (request.getSelectedRisks() == null)
                 ? Optional.of(validationErrorFactory.buildError("ERROR_CODE_8"))
                 : Optional.empty();

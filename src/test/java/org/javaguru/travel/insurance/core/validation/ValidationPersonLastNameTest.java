@@ -32,7 +32,7 @@ class ValidationPersonLastNameTest {
     public void PersonLastNameIsEmpty() {
         when(request.getPersonLastName()).thenReturn("");
         when(validationErrorFactory.buildError("ERROR_CODE_2")).thenReturn(validationError);
-        Optional<ValidationError> error = validationPersonLastName.execute(request);
+        Optional<ValidationError> error = validationPersonLastName.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -41,7 +41,7 @@ class ValidationPersonLastNameTest {
     public void PersonLastNameIsNull() {
         when(request.getPersonLastName()).thenReturn(null);
         when(validationErrorFactory.buildError("ERROR_CODE_2")).thenReturn(validationError);
-        Optional<ValidationError> error = validationPersonLastName.execute(request);
+        Optional<ValidationError> error = validationPersonLastName.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -49,7 +49,7 @@ class ValidationPersonLastNameTest {
     @Test
     public void PersonLastNameIsCorrect() {
         when(request.getPersonLastName()).thenReturn("Lee");
-        Optional<ValidationError> error = validationPersonLastName.execute(request);
+        Optional<ValidationError> error = validationPersonLastName.validate(request);
         assertTrue(error.isEmpty());
     }
 

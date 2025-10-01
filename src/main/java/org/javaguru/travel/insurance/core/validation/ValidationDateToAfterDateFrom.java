@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ValidationDateToAfterDateFrom implements ValidationService{
+class ValidationDateToAfterDateFrom extends ValidationServiceImpl{
 
     private final ValidationErrorFactory validationErrorFactory;
 
     @Override
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         return (request.getAgreementDateTo() != null &&
                 request.getAgreementDateFrom() != null &&
                 (request.getAgreementDateFrom().after(request.getAgreementDateTo()) ||

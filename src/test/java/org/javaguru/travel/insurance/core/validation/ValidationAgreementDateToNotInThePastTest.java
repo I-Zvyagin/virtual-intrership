@@ -33,7 +33,7 @@ class ValidationAgreementDateToNotInThePastTest {
     public void AgreementDateToInThePast() {
         when(request.getAgreementDateTo()).thenReturn(new Date(125, 7, 25));
         when(validationErrorFactory.buildError("ERROR_CODE_6")).thenReturn(validationError);
-        Optional<ValidationError> error = validationAgreementDateToNotInThePast.execute(request);
+        Optional<ValidationError> error = validationAgreementDateToNotInThePast.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -41,7 +41,7 @@ class ValidationAgreementDateToNotInThePastTest {
     @Test
     public void AgreementDateToInTheFuture() {
         when(request.getAgreementDateTo()).thenReturn(new Date(126, 7, 25));
-        Optional<ValidationError> error = validationAgreementDateToNotInThePast.execute(request);
+        Optional<ValidationError> error = validationAgreementDateToNotInThePast.validate(request);
         assertTrue(error.isEmpty());
     }
 }

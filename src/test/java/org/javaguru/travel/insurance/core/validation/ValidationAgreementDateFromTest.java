@@ -33,7 +33,7 @@ class ValidationAgreementDateFromTest {
     public void AgreementDateFromIsNull() {
         when(request.getAgreementDateFrom()).thenReturn(null);
         when(validationErrorFactory.buildError("ERROR_CODE_3")).thenReturn(validationError);
-        Optional<ValidationError> error = validationAgreementDateFrom.execute(request);
+        Optional<ValidationError> error = validationAgreementDateFrom.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -41,7 +41,7 @@ class ValidationAgreementDateFromTest {
     @Test
     public void AgreementDateFromIsCorrect() {
         when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7, 25));
-        Optional<ValidationError> error = validationAgreementDateFrom.execute(request);
+        Optional<ValidationError> error = validationAgreementDateFrom.validate(request);
         assertTrue(error.isEmpty());
     }
 }

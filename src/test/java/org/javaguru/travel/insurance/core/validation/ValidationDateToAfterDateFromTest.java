@@ -34,7 +34,7 @@ class ValidationDateToAfterDateFromTest {
         when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7 , 29));
         when(request.getAgreementDateTo()).thenReturn(new Date(126, 7 , 25));
         when(validationErrorFactory.buildError("ERROR_CODE_7")).thenReturn(validationError);
-        Optional<ValidationError> error = validationDateToAfterDateFrom.execute(request);
+        Optional<ValidationError> error = validationDateToAfterDateFrom.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -43,7 +43,7 @@ class ValidationDateToAfterDateFromTest {
     public void DateToAfterDateFrom() {
         when(request.getAgreementDateFrom()).thenReturn(new Date(126, 7 , 25));
         when(request.getAgreementDateTo()).thenReturn(new Date(126, 7 , 29));
-        Optional<ValidationError> error = validationDateToAfterDateFrom.execute(request);
+        Optional<ValidationError> error = validationDateToAfterDateFrom.validate(request);
         assertTrue(error.isEmpty());
     }
 }

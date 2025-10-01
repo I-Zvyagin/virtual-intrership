@@ -33,13 +33,13 @@ class TravelCalculatePremiumRequestValidatorTest {
 
     @Test
     void validationIsSuccessful() {
-        when(validationService.execute(request)).thenReturn(Optional.empty());
+        when(validationService.validate(request)).thenReturn(Optional.empty());
         assertTrue(validator.validate(request).isEmpty());
     }
 
     @Test
     void validationIsUnsuccessful() {
-        when(validationService.execute(request)).thenReturn(Optional.of(new ValidationError()));
+        when(validationService.validate(request)).thenReturn(Optional.of(new ValidationError()));
         assertFalse(validator.validate(request).isEmpty());
     }
 

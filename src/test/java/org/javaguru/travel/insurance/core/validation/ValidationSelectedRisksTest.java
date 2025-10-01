@@ -32,7 +32,7 @@ class ValidationSelectedRisksTest {
     public void ValidationSelectedRisksIsNull() {
         when(request.getSelectedRisks()).thenReturn(null);
         when(validationErrorFactory.buildError("ERROR_CODE_8")).thenReturn(validationError);
-        Optional<ValidationError> error = validationSelectedRisks.execute(request);
+        Optional<ValidationError> error = validationSelectedRisks.validate(request);
         assertTrue(error.isPresent());
         assertSame(validationError, error.get());
     }
@@ -43,7 +43,7 @@ class ValidationSelectedRisksTest {
                 "TRAVEL_MEDICAL",
                 "TRAVEL_CANCELLATION",
                 "TRAVEL_LOSS_BAGGAGE"));
-        Optional<ValidationError> error = validationSelectedRisks.execute(request);
+        Optional<ValidationError> error = validationSelectedRisks.validate(request);
         assertTrue(error.isEmpty());
     }
 }

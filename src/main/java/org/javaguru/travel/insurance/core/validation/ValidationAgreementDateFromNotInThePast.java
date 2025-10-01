@@ -12,12 +12,12 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class ValidationAgreementDateFromNotInThePast implements ValidationService{
+class ValidationAgreementDateFromNotInThePast extends ValidationServiceImpl{
 
     private final ValidationErrorFactory validationErrorFactory;
 
     @Override
-    public Optional<ValidationError> execute(TravelCalculatePremiumRequest request) {
+    public Optional<ValidationError> validate(TravelCalculatePremiumRequest request) {
         Date now = Date.from(java.time.ZonedDateTime.now(ZoneId.systemDefault()).toInstant());
         return (request.getAgreementDateFrom() != null &&
                 request.getAgreementDateFrom().before(now))
