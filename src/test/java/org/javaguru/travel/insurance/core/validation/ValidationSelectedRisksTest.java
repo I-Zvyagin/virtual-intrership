@@ -1,5 +1,7 @@
 package org.javaguru.travel.insurance.core.validation;
 
+import org.javaguru.travel.insurance.core.domain.ClassifierValue;
+import org.javaguru.travel.insurance.core.repositories.ClassifierValueRepository;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.junit.jupiter.api.Test;
@@ -11,12 +13,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ValidationSelectedRisksTest {
 
+    @Mock
+    private ClassifierValueRepository classifierValueRepository;
     @Mock
     private ValidationErrorFactory validationErrorFactory;
     @InjectMocks
@@ -25,25 +32,36 @@ class ValidationSelectedRisksTest {
     @Mock
     private TravelCalculatePremiumRequest request;
 
-    @Mock
-    private ValidationError validationError;
-
     @Test
     public void ValidationSelectedRisksIsNull() {
         when(request.getSelectedRisks()).thenReturn(null);
-        when(validationErrorFactory.buildError("ERROR_CODE_8")).thenReturn(validationError);
-        Optional<ValidationError> error = validationSelectedRisks.validate(request);
-        assertTrue(error.isPresent());
-        assertSame(validationError, error.get());
+        assertTrue(validationSelectedRisks.validateList(request).isEmpty());
+        verifyNoInteractions(classifierValueRepository, validationErrorFactory);
     }
 
     @Test
-    public void ValidationSelectedRisksIsCorrect() {
-        when(request.getSelectedRisks()).thenReturn(List.of(
-                "TRAVEL_MEDICAL",
-                "TRAVEL_CANCELLATION",
-                "TRAVEL_LOSS_BAGGAGE"));
-        Optional<ValidationError> error = validationSelectedRisks.validate(request);
-        assertTrue(error.isEmpty());
+    public void shouldValidateWithoutErrors() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getSelectedRisks()).thenReturn(List.of("RISK_IC_1", "RISK_IC_2"));
+        when(classifierValueRepository.findByClassifierTitleAndIc("RISK_TYPE", "RISK_IC_1"))
+                .thenReturn(Optional.of(mock(ClassifierValue.class)));
+        when(classifierValueRepository.findByClassifierTitleAndIc("RISK_TYPE", "RISK_IC_2"))
+                .thenReturn(Optional.of(mock(ClassifierValue.class)));
+        assertTrue(validationSelectedRisks.validateList(request).isEmpty());
+    }
+
+    @Test
+    public void shouldValidateWithErrors() {
+        TravelCalculatePremiumRequest request = mock(TravelCalculatePremiumRequest.class);
+        when(request.getSelectedRisks()).thenReturn(List.of("RISK_IC_1", "RISK_IC_2"));
+        when(classifierValueRepository.findByClassifierTitleAndIc("RISK_TYPE", "RISK_IC_1"))
+                .thenReturn(Optional.empty());
+        when(classifierValueRepository.findByClassifierTitleAndIc("RISK_TYPE", "RISK_IC_2"))
+                .thenReturn(Optional.empty());
+
+        ValidationError error = mock(ValidationError.class);
+        when(validationErrorFactory.buildError(eq("ERROR_CODE_9"), anyList())).thenReturn(error);
+
+        assertEquals(2, validationSelectedRisks.validateList(request).size());
     }
 }

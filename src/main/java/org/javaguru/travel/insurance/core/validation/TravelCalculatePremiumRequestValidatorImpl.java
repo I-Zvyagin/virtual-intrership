@@ -6,11 +6,11 @@ import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.javaguru.travel.insurance.dto.ValidationError;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -34,8 +34,10 @@ class TravelCalculatePremiumRequestValidatorImpl implements TravelCalculatePremi
 
     public List<ValidationError> collectListOfErrors(TravelCalculatePremiumRequest request) {
         return validationServices.stream()
-                .flatMap(validation -> validation.validateList(request).stream())
-                .collect(toList());
+                .map(validation -> validation.validateList(request))
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     public List<ValidationError> concatLists(List<ValidationError> list1, List<ValidationError> list2) {
