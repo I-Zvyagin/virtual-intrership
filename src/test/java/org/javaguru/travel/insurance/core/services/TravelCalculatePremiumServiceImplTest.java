@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -72,6 +71,7 @@ class TravelCalculatePremiumServiceImplTest {
         request.setPersonLastName("Lee");
         request.setAgreementDateFrom(new Date(126, 7, 25));
         request.setAgreementDateTo(new Date(126, 7, 29));
+        request.setSelectedRisks(List.of("TRAVEL_MEDICAL", "TRAVEL_CANCELLATION", "TRAVEL_LOSS_BAGGAGE"));
         return request;
     }
 }
