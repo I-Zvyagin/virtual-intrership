@@ -41,7 +41,7 @@ class UnderwritingCalculatorImplTest {
         when(travelRiskPremiumCalculatorMedical.calculatePremium(any())).thenReturn(BigDecimal.ONE);
         when(travelRiskPremiumCalculatorCancellation.calculatePremium(any())).thenReturn(BigDecimal.ONE);
         when(request.getSelectedRisks()).thenReturn(List.of("TRAVEL_MEDICAL", "TRAVEL_CANCELLATION"));
-        BigDecimal payment = underwritingCalculatorImpl.calculateAgreementPrice(request);
-        assertEquals(new BigDecimal(2), payment);
+        TravelPremiumCalculationResult premiumCalculationResult = underwritingCalculatorImpl.calculatePremium(request);
+        assertEquals(new BigDecimal(2), premiumCalculationResult.totalPremium());
     }
 }

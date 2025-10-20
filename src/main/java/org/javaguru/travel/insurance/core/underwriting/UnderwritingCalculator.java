@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 
 public interface UnderwritingCalculator {
 
-    BigDecimal calculateAgreementPrice(TravelCalculatePremiumRequest request);
+    TravelPremiumCalculationResult calculatePremium(TravelCalculatePremiumRequest request);
 
 }

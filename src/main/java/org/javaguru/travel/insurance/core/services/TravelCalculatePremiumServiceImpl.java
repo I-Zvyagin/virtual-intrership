@@ -2,6 +2,7 @@ package org.javaguru.travel.insurance.core.services;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.javaguru.travel.insurance.core.underwriting.TravelPremiumCalculationResult;
 import org.javaguru.travel.insurance.core.underwriting.UnderwritingCalculator;
 import org.javaguru.travel.insurance.core.validation.TravelCalculatePremiumRequestValidator;
 import org.javaguru.travel.insurance.dto.RiskPremium;
@@ -24,7 +25,7 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
     public TravelCalculatePremiumResponse calculatePremium(TravelCalculatePremiumRequest request) {
         List<ValidationError> errors = requestValidator.validate(request);
         return(errors.isEmpty())
-                ? getResponse(request)
+                ? getResponse(request, underwritingCalculator.calculatePremium(request))
                 : getResponse(errors);
     }
 
@@ -32,21 +33,15 @@ class TravelCalculatePremiumServiceImpl implements TravelCalculatePremiumService
         return new TravelCalculatePremiumResponse(errors);
     }
 
-    private TravelCalculatePremiumResponse getResponse(TravelCalculatePremiumRequest request) {
+    private TravelCalculatePremiumResponse getResponse(TravelCalculatePremiumRequest request,
+                                                       TravelPremiumCalculationResult result) {
         TravelCalculatePremiumResponse response = new TravelCalculatePremiumResponse();
         response.setAgreementDateFrom(request.getAgreementDateFrom());
         response.setAgreementDateTo(request.getAgreementDateTo());
         response.setPersonFirstName(request.getPersonFirstName());
         response.setPersonLastName(request.getPersonLastName());
-        response.setAgreementPremium(underwritingCalculator.calculateAgreementPrice(request));
-        response.setRisks(getListOfRisks(request));
-
+        response.setAgreementPremium(result.totalPremium());
+        response.setRisks(result.riskPremiums());
         return response;
-    }
-
-    private List<RiskPremium> getListOfRisks (TravelCalculatePremiumRequest request) {
-        return request.getSelectedRisks().stream()
-                .map(risk -> new RiskPremium(risk, BigDecimal.ZERO))
-                .toList();
     }
 }

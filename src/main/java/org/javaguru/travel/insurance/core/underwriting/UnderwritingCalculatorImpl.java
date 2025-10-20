@@ -2,6 +2,7 @@ package org.javaguru.travel.insurance.core.underwriting;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.javaguru.travel.insurance.dto.RiskPremium;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,19 @@ class UnderwritingCalculatorImpl implements  UnderwritingCalculator{
     private  final List<TravelRiskPremiumCalculator> travelRiskPremiumCalculators;
 
     @Override
-    public BigDecimal calculateAgreementPrice(TravelCalculatePremiumRequest request){
-        return request.getSelectedRisks().stream()
-                .map(risk -> getTravelRiskPremiumPrice(risk, request))
+    public TravelPremiumCalculationResult calculatePremium(TravelCalculatePremiumRequest request){
+        List<RiskPremium> riskPremiums = request.getSelectedRisks().stream()
+                .map(riskIc -> {
+                    BigDecimal riskPremium = getTravelRiskPremiumPrice(riskIc, request);
+                    return new RiskPremium(riskIc, riskPremium);
+                })
+                .toList();
+
+        BigDecimal totalPremium = riskPremiums.stream()
+                .map(RiskPremium::getPremium)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new TravelPremiumCalculationResult(totalPremium, riskPremiums);
     }
 
     private BigDecimal getTravelRiskPremiumPrice (String riskIc, TravelCalculatePremiumRequest request) {

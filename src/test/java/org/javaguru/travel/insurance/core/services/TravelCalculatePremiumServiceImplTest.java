@@ -1,5 +1,6 @@
 package org.javaguru.travel.insurance.core.services;
 
+import org.javaguru.travel.insurance.core.underwriting.TravelPremiumCalculationResult;
 import org.javaguru.travel.insurance.core.underwriting.UnderwritingCalculator;
 import org.javaguru.travel.insurance.core.validation.TravelCalculatePremiumRequestValidator;
 import org.javaguru.travel.insurance.dto.TravelCalculatePremiumRequest;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,8 +36,9 @@ class TravelCalculatePremiumServiceImplTest {
 
     @BeforeEach
     public void setUp() {
+        TravelPremiumCalculationResult calculationResult = mock(TravelPremiumCalculationResult.class);
         request = createRequestWithAllFields();
-        when(underwritingCalculator.calculateAgreementPrice(request)).thenReturn(new BigDecimal(0));
+        when(underwritingCalculator.calculatePremium(request)).thenReturn(calculationResult);
         when(requestValidator.validate(request)).thenReturn(List.of());
         response = service.calculatePremium(request);
     }
