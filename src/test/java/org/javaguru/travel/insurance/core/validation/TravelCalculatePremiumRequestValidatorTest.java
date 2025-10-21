@@ -39,7 +39,7 @@ class TravelCalculatePremiumRequestValidatorTest {
 
     @Test
     void validationIsUnsuccessful() {
-        when(validationService.validate(request)).thenReturn(Optional.of(new ValidationError()));
+        when(validationService.validate(request)).thenReturn(Optional.of(new ValidationError("errorCode", "description")));
         assertFalse(validator.validate(request).isEmpty());
     }
 
