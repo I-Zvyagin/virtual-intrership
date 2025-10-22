@@ -13,33 +13,22 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class UnderwritingCalculatorImpl implements  UnderwritingCalculator{
 
-    private  final List<TravelRiskPremiumCalculator> travelRiskPremiumCalculators;
+    private  final SelectedRisksPremiumCalculator selectedRisksPremiumCalculator;
 
     @Override
-    public TravelPremiumCalculationResult calculatePremium(TravelCalculatePremiumRequest request){
-        List<RiskPremium> riskPremiums = request.getSelectedRisks().stream()
-                .map(riskIc -> {
-                    BigDecimal riskPremium = getTravelRiskPremiumPrice(riskIc, request);
-                    return new RiskPremium(riskIc, riskPremium);
-                })
-                .toList();
-
-        BigDecimal totalPremium = riskPremiums.stream()
-                .map(RiskPremium::getPremium)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
+    public TravelPremiumCalculationResult calculatePremium(TravelCalculatePremiumRequest request) {
+        List<RiskPremium> riskPremiums = calculateSelectedRisksPremium(request);
+        BigDecimal totalPremium = calculateTotalPremium(riskPremiums);
         return new TravelPremiumCalculationResult(totalPremium, riskPremiums);
     }
 
-    private BigDecimal getTravelRiskPremiumPrice (String riskIc, TravelCalculatePremiumRequest request) {
-        TravelRiskPremiumCalculator riskPremiumCalculator = getTravelRiskPremiumCalculators(riskIc);
-        return riskPremiumCalculator.calculatePremium(request);
+    private List<RiskPremium> calculateSelectedRisksPremium(TravelCalculatePremiumRequest request) {
+        return selectedRisksPremiumCalculator.getRiskPremiumForAllSelectedRisk(request);
     }
 
-    private TravelRiskPremiumCalculator getTravelRiskPremiumCalculators (String riskIc) {
-        return travelRiskPremiumCalculators.stream()
-                .filter(riskCalculator -> riskCalculator.getRiskIc().equals(riskIc))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Not supported riskIc = " + riskIc));
+    private static BigDecimal calculateTotalPremium(List<RiskPremium> riskPremiums) {
+        return riskPremiums.stream()
+                .map(RiskPremium::getPremium)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
