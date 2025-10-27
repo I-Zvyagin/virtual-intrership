@@ -3,6 +3,6 @@
   "personLastName" : "Lee",
   "agreementDateFrom" : "2026-08-25",
   "agreementDateTo" : "2026-08-29",
-  "selectedRisks" : ["TRAVEL_MEDICAL", "TRAVEL_CANCELLATION", "TRAVEL_LOSS_BAGGAGE"],
-  "country" : "JAPAN"
+  "selected_risks": ["NOT_VALID_RISK_IC_1", "NOT_VALID_RISK_IC_2"],
+  "country": "JAPAN"
 }

@@ -3,5 +3,6 @@
   "personLastName" : "Lee",
   "agreementDateFrom" : "2026-08-25",
   "agreementDateTo" : "2026-08-29",
-  "selectedRisks" : null
+  "selectedRisks" : null,
+  "country" : "JAPAN"
 }

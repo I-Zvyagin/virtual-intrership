@@ -1,8 +1,8 @@
 {
   "personFirstName" : "Stan",
-  "personLastName" : null,
+  "personLastName" : "Lee",
   "agreementDateFrom" : "2026-08-25",
   "agreementDateTo" : "2026-08-29",
   "selectedRisks" : ["TRAVEL_MEDICAL", "TRAVEL_CANCELLATION", "TRAVEL_LOSS_BAGGAGE"],
-  "country" : "JAPAN"
+  "country" : null
 }
