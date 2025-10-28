@@ -4,11 +4,11 @@
   "personLastName" : "Lee",
   "agreementDateFrom" : "2026-08-25",
   "agreementDateTo" : "2026-08-29",
-  "agreementPremium": 4,
+  "agreementPremium": 14.00,
   "risks": [
     {
       "riskIc": "TRAVEL_MEDICAL",
-      "premium": 4
+      "premium": 14.00
     },
     {
       "riskIc": "TRAVEL_CANCELLATION",
